@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h1>Create Task for Project: {{ project.name }}</h1>
+  <form method="POST">
+    <div class="form-group">
+      <label for="title">Task Title:</label>
+      <input type="text" class="form-control" name="title" id="title" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea class="form-control" name="description" id="description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="assignee">Assign to:</label>
+      <select class="form-control" name="assignee" id="assignee">
+         <option value="">-- Select Assignee (optional) --</option>
+         {% for user in potential_assignees %}
+         <option value="{{ user.username }}">{{ user.username }}</option>
+         {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Task</button>
+  </form>
+  <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn btn-secondary mt-3">Back to Project</a>
+</div>
+{% endblock %} 

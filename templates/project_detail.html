@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h1>{{ project.name }}</h1>
+  <p>{{ project.description }}</p>
+  <a href="{{ url_for('create_task', project_id=project.id) }}" class="btn btn-success mb-3">Add Task</a>
+  <a href="{{ url_for('share_project', project_id=project.id) }}" class="btn btn-info mb-3">Share Project</a>
+  
+  <p>Owner: {{ project.owner.username }}</p>
+  
+  <h3>Shared with:</h3>
+  <ul>
+    {% for user in project.shared_with_users %}
+      {% if user != project.owner %}
+      <li>{{ user.username }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  
+  <div class="row">
+    <div class="col-md-4 list-group" id="todo-list" data-status="todo" ondragover="event.preventDefault()">
+      <h3>To Do</h3>
+      {% for task in project.tasks %}
+        {% if task.status == 'todo' %}
+          <div class="task-card" draggable="true" data-task-id="{{ task.id }}">{{ task.title }}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="col-md-4 list-group" id="in-progress-list" data-status="in_progress" ondragover="event.preventDefault()">
+      <h3>In Progress</h3>
+      {% for task in project.tasks %}
+        {% if task.status == 'in_progress' %}
+          <div class="task-card" draggable="true" data-task-id="{{ task.id }}">{{ task.title }}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="col-md-4 list-group" id="done-list" data-status="done" ondragover="event.preventDefault()">
+      <h3>Done</h3>
+      {% for task in project.tasks %}
+        {% if task.status == 'done' %}
+          <div class="task-card" draggable="true" data-task-id="{{ task.id }}">{{ task.title }}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %} 

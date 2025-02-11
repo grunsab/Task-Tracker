@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+   <h1>Dashboard</h1>
+   
+   <h2>Your Projects</h2>
+   {% if owned_projects %}
+       <ul>
+           {% for project in owned_projects %}
+           <li><a href="{{ url_for('project_detail', project_id=project.id) }}">{{ project.name }}</a></li>
+           {% endfor %}
+       </ul>
+   {% else %}
+       <p>You have no projects yet.</p>
+   {% endif %}
+   
+   <h2>Projects Shared with You</h2>
+   {% if shared_projects %}
+       <ul>
+           {% for project in shared_projects %}
+           <li><a href="{{ url_for('project_detail', project_id=project.id) }}">{{ project.name }}</a></li>
+           {% endfor %}
+       </ul>
+   {% else %}
+       <p>No projects have been shared with you yet.</p>
+   {% endif %}
+   
+   <a href="{{ url_for('create_project') }}" class="btn btn-primary">Create New Project</a>
+</div>
+{% endblock %} 
